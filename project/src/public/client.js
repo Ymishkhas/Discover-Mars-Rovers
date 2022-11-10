@@ -124,6 +124,7 @@ const getHomePage = () => {
     `
 }
 
+// HAS THE USE OF ARRAY MAP FUNCTION
 // Traverse the apod and return the HTML for header content and the photo galary
 // -------------------------------------------------------------------
 const getGallary = (apod) => {
@@ -132,8 +133,9 @@ const getGallary = (apod) => {
 
     gallary += getHeaderInfo(apod);
     
-    apod.latest_photos.forEach( async (photo) => {
-        gallary += getPhoto(photo)
+    const imageSrcs = apod.latest_photos.map((photo) => photo.img_src);
+    imageSrcs.forEach( async (img_src) => {
+        gallary += getPhoto(img_src)
     });
 
     return gallary;
@@ -156,11 +158,11 @@ const getHeaderInfo = (apod) => {
 }
 // Returns HTML content for a single photo
 // -------------------------------------------------------------------
-const getPhoto = (photo) => {
+const getPhoto = (img_src) => {
     return `
         <div class="gallery">
-            <a target="_blank" href="${photo.img_src}">
-                <img src="${photo.img_src}">
+            <a target="_blank" href="${img_src}">
+                <img src="${img_src}">
             </a>
         </div>
     `
