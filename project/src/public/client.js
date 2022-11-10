@@ -1,15 +1,13 @@
-let store = {
-    user: { name: "Student" },
+let store = Immutable.Map({
+    user: Immutable.Map({ name: "Student" }),
     apod: '',
-    currentRover: '',
-}
+});
 
 // add our markup to the page
 const root = document.getElementById('root')
 
 const updateStore = (store, newState) => {
-    store = Object.assign(store, newState)
-    console.log(store);
+    store = store.merge(newState);
     render(root, store)
 }
 
@@ -20,7 +18,6 @@ const render = async (root, state) => {
 
 // create content
 const App = (state) => {
-    let { currentRover, apod } = state
 
     return `
         <button class="tablink"  onclick="openPage('Home')" id="defaultOpen">Home</button>
@@ -29,7 +26,7 @@ const App = (state) => {
         <button class="tablink" onclick="openPage('Spirit')" id="Spirit">Spirit</button>
 
         <div id="Content" class="tabcontent">
-            ${createContent(apod)}
+            ${createContent(state)}
         </div>
     `
 }
@@ -62,23 +59,27 @@ function openPage(pageName) {
 
 // API call to get a rover data by it's name (the requested page name)
 // -------------------------------------------------------------------
-const getRoverData = (pageName, state) => {
+const getRoverData = async (pageName, state) => {
     let { apod } = state
 
     if (pageName === 'Home') {
         apod = '';
         updateStore(store, { apod })
     } else { 
-        fetch(`http://localhost:3000/rovers/${pageName}`)
-            .then(res => res.json())
-            .then(apod => updateStore(store, { apod }))
+        const response = await fetch(`http://localhost:3000/rovers/${pageName}`)
+        
+        apod = await response.json()
+        const newState = store.set('apod', apod);
+        
+        updateStore(store, newState)
     }
 }
 
 // Creates HTML content based on the state of the apod
 // -------------------------------------------------------------------
-const createContent = (apod) => {
-
+const createContent = (state) => {
+    const apod = state.get('apod');
+    
     if (!apod) {
         return getHomePage();
     }
@@ -90,11 +91,34 @@ const createContent = (apod) => {
 // -------------------------------------------------------------------
 const getHomePage = () => {
     return `
+        <h1>Mars Exploration Rovers</h1>
+
         <section>
-            <h3>Put things on the page!</h3>
-            <p>Here is an example section.</p>
             <p>
-                second time
+            Mars is a fascinating planet. It is icy cold and covered in reddish dust and dirt. Like Earth, it has volcanoes, gullies, and flat plains.
+            Scientists can also see channels that look like they were carved by rivers and streams a long, long time ago.
+            </p>
+
+            <p>
+            It all began in 2003 with the launch of two rovers to explore the Martian surface and geology.
+            both landed on Mars at separate locations in January 2004. Both rovers far outlived their planned missions of 90 Martian solar days.
+            We are talking about MER-A Spirit and MER-B Opportunity</p>
+
+            <p>
+            Rovers have wheels and specialize in moving around. They land on the surface of Mars and drive around to different spots.
+            </p>
+
+            <p>
+            They help scientists in their quest to understand what different parts of the planet are made of. 
+            Mars is made up of lots of different types of rocks, and each rock is made up of a mixture of chemicals. 
+            A rover can drive around to different areas, studying the different chemicals in each rock. 
+            These chemicals can tell scientists something about the environments that changed that rock over time.
+            </p>
+
+            <br>
+            <h2>Lets discover some of the rovers!</h2>
+            <p>
+            Toggele the menu up to select a rover and discover the latest images each one took.
             </p>
         </section>
     `
@@ -108,7 +132,6 @@ const getGallary = (apod) => {
 
     gallary += getHeaderInfo(apod);
     
-    console.log(apod);
     apod.latest_photos.forEach( async (photo) => {
         gallary += getPhoto(photo)
     });
