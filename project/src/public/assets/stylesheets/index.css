@@ -3,7 +3,7 @@ body {
   height: 100%;
   margin: 0;
   font-family: Arial;
-  background-color: rgb(59, 90, 96);
+  background-color: rgb(16 16 27);
 }
 main {
   flex: 0;
