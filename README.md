@@ -34,4 +34,4 @@ yarn install
 ```sh
 yarn start
 ```
-3. Access  http://localhost:3000 in your browser.
+3. Access  http://localhost:3000 in your browser. If you don't see an image on the page, check that your api key is set up correctly.
