@@ -75,10 +75,6 @@ const getRoverData = async (pageName, state) => {
     }
 }
 
-// fetch(`http://localhost:3000/rovers/${pageName}`)
-//         .then(res => res.json())
-//         .then(apod => updateStore(store, { apod }))
-
 // Creates HTML content based on the state of the apod
 // -------------------------------------------------------------------
 const createContent = (state) => {
