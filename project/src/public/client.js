@@ -75,6 +75,10 @@ const getRoverData = async (pageName, state) => {
     }
 }
 
+// fetch(`http://localhost:3000/rovers/${pageName}`)
+//         .then(res => res.json())
+//         .then(apod => updateStore(store, { apod }))
+
 // Creates HTML content based on the state of the apod
 // -------------------------------------------------------------------
 const createContent = (state) => {
@@ -84,7 +88,7 @@ const createContent = (state) => {
         return getHomePage();
     }
 
-    return getGallary(apod);
+    return getGallary(apod, createHeaderInfo, createPhotos);
 }
 
 // Returns HTML content for the home page
@@ -124,26 +128,22 @@ const getHomePage = () => {
     `
 }
 
-// HAS THE USE OF ARRAY MAP FUNCTION
+// // HIGHER ORDER FUNCTION, HAS THE USE OF ARRAY MAP FUNCTION
 // Traverse the apod and return the HTML for header content and the photo galary
 // -------------------------------------------------------------------
-const getGallary = (apod) => {
-    
-    let gallary = '';
-
-    gallary += getHeaderInfo(apod);
+const getGallary = (apod, callback1, callback2) => {
     
     const imageSrcs = apod.latest_photos.map((photo) => photo.img_src);
-    imageSrcs.forEach( async (img_src) => {
-        gallary += getPhoto(img_src)
-    });
-
-    return gallary;
+    
+    return `
+        ${callback1(apod)}
+        ${callback2(imageSrcs)}
+    `
 }
 
 // Returns HTML content for the rover header content
 // -------------------------------------------------------------------
-const getHeaderInfo = (apod) => {
+const createHeaderInfo = (apod) => {
     return `
         <div class="desc">
             <div class="title">
@@ -156,14 +156,19 @@ const getHeaderInfo = (apod) => {
         </div>
     `
 }
-// Returns HTML content for a single photo
+// Returns HTML content for all the photos
 // -------------------------------------------------------------------
-const getPhoto = (img_src) => {
-    return `
-        <div class="gallery">
-            <a target="_blank" href="${img_src}">
-                <img src="${img_src}">
-            </a>
-        </div>
-    `
+const createPhotos = (imageSrcs) => {
+    const images = imageSrcs.reduce((html, img_src) => {
+        html += `
+            <div class="gallery">
+                <a target="_blank" href="${img_src}">
+                    <img src="${img_src}">
+                </a>
+            </div>
+        `
+        return html;
+    }, '')
+
+    return images;
 }
