@@ -9,17 +9,29 @@ This is the second project of the Intermediate JavaScript Nanodegree Program fro
 This app makes use of Functional Programming with Javascript. So, the frontend code makes use of  pure functions, Higher Order Function and  the Immutable JS Library.
 The backend of this app is built with Node/Express, make calls to the NASA API and use pure functions do to the logic.
 
-### Getting Started
+## Getting Started
 
-1. Clone this repo and install the dependencies
+### Prerequisites
+1. Download [NASA API key](https://api.nasa.gov/).
 
-2. For this project we are using yarn as our package manager, so to install your dependencies run:
+2. Clone this repo.
 
-```yarn install``` 
+3. ```cd``` into project directory.
 
-**If you don’t have yarn installed globally, follow their installation documentation here according to your operating system: https://yarnpkg.com/lang/en/docs/install
+4. Create ```.env``` file and specify the credentials:
+```
+API_KEY = <your-api-key>
+```
 
-3. Run `yarn start` in your terminal and go to `http:localhost:3000` to check that your app is working. If you don't see an image on the page, check that your api key is set up correctly.
+### Running Locally
+To run **Mars Rover Dashboard** from project directory,
 
-
-
+1. Install dependencies. For this project we are using yarn as our package manager
+```sh
+yarn install
+```
+2. Start the server.
+```sh
+yarn start
+```
+3. Access  http://localhost:3000 in your browser.
