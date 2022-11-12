@@ -12,25 +12,25 @@ The backend of this app is built with Node/Express, make calls to the NASA API a
 ## Getting Started
 
 ### Prerequisites
-1. Download [NASA API key](https://api.nasa.gov/).
 
-2. Clone this repo.
+1. Clone this repo.
 
-3. ```cd``` into project directory.
+2. ```cd``` into project directory.
 
-4. Create ```.env``` file and specify the credentials:
+3. Create ```.env``` file and specify the credentials, mine is:
 ```
-API_KEY = <your-api-key>
+API_KEY = 'hFutbmoTqBrqSh7ZJbQc2bSHHpfZB9OOc8c6wj8Z'
 ```
+***Or you can get your own [NASA API key](https://api.nasa.gov/).***
 
 ### Running Locally
 To run **Mars Rover Dashboard** from project directory,
 
-1. Install dependencies. For this project we are using yarn as our package manager
+1. Install dependencies. For this project we are using yarn as our package manager.
 ```sh
 yarn install
 ```
-2. Start the server.
+2. To start the server run in the terminal:
 ```sh
 yarn start
 ```
